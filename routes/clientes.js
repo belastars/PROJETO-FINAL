@@ -7,7 +7,7 @@ const SEGREDO = 'MIICXAIBAAKBgQCOl54HaBM/WiL/jPPdFGjm9f8VprUst1J+vs7G/YRGRHYLGqt
 const autenticar = (request, response, next) => {
   const authHeader = request.get('authorization')
   let autenticado = false
-  
+
   if (!authHeader) {
     return response.status(401).send('Você precisa fazer login!')
   }
@@ -68,12 +68,11 @@ router.post('/admin', autenticarAdmin, controller.addAdmin)
 router.get('/:id', autenticar, controller.getById)
 router.patch('/:id', autenticar, controller.update)
 router.delete('/:id', autenticar, controller.remove)
-router.post('/:clienteId/produtos', autenticar, controller.addProduto)
+router.post('/:clienteId/tratamentos', autenticar, controller.addTratamento)
 //router.patch('/:clienteId/produtos/:produtoId/alterarDados', autenticar, controller.alterarDadosProduto)
-router.get('/:id/produtos', autenticar, controller.getProdutos)
-router.patch('/:clienteId/produtos/:produtoId', autenticar, controller.updateProduto)
-router.get('/:clienteId/produtos/:produtoId', autenticar, controller.getProdutoById)
+router.get('/:id/tratamentos', autenticar, controller.getTratamentos)
+router.patch('/:clienteId/tratamentos/:tratamentoId', autenticar, controller.updateTratamento)
+router.get('/:clienteId/tratamentos/:tratamentoId', autenticar, controller.getTratamentoById)
 router.post('/login', controller.login)
 
 module.exports = router
-  

@@ -1,6 +1,6 @@
 const { connect } = require('../models/Repository')
 const clientesModel = require('../models/ClientesSchema')
-const { produtosModel } = require('../models/ProdutosSchema')
+const { tratamentosModel } = require('../models/TratamentosSchema')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const SEGREDO = 'MIICXAIBAAKBgQCOl54HaBM/WiL/jPPdFGjm9f8VprUst1J+vs7G/YRGRHYLGqt+M/ljAhcROPy3FdaVi2smqqyZhf4d+EZ9lKM6LVed91sxvcyMFEp6x8R2KS9wIzUtJ6r1MAIKd8HURmbaN4V2TV/FLeOUANRCZ+QhYEy+eNbuVIJANYtXBUSn8QIDAQABAoGBAIuVS/MAJGdNuxjiSA5Q3mfIw03UhWIiirTb39rXbNbESbGRB/NguW38K8yGNoya6hY2BkwxowgeLKX11js0d5sSHgEgL+pDQtXshHu7vlYU0ksHwfmD/R8+ZHJH6F6L0vuzs4NoVK/8iQHFLboUjF2sORyuLHbBmFZQWhInet8pAkEA0OlL2uHCYhkNuokJ9H+OnJEqKS2BtYSkH3Hrh2opZg2HtvUtXEIxzmj/95CzxMXQtNJhQMK3ekvnF3Upcj2avwJBAK67i8OEKM2jerbFKrBqr6/kUkZeyHLA8I4L2C3/3nKPGUj/GAc2xxuK1XxnpC0e3Wqz5OMwzkWU4Ynblsdq2U8CQHu9U6LICbzVHh6YwP7C9xOhoBlXzPZZJGVDssA4j2DVLsednUqCIsIhy0s1uGUazi3sVpJnQwn7H1vzl6ME/j0CQAT7qj+4LCW5LM27j70aPcppW4NQPq0vHW0fn1moe2KO/CydwcSq5kC909rJZeA3ih755GQqRyeq2EfDMGidfncCQD770Za6sJP1/i1vcdoWuWYnhpiU8TNKjFb2vJEN598amcyJV9PlAAdEkszh6EDA76t6/yT6NoUn/y9x4YskzQo='
@@ -108,14 +108,14 @@ const update = (request, response) => {
   )
 }
 
-const addProduto = async (request, response) => {
+const addTratamento = async (request, response) => {
   const clienteId = request.params.clienteId
-  const produto = request.body
+  const ptratamento = request.body
   const options = { new: true }
-  const novoProduto = new produtosModel(produto)
+  const novoTratamento = new tratamentosModel(tratamento)
   const cliente = await clientesModel.findById(clienteId)
 
-  cliente.produtos.push(novoProduto)
+  cliente.tratamentos.push(novoTratamento)
   cliente.save((error) => {
     if (error) {
       return response.status(500).send(error)
@@ -142,7 +142,7 @@ const addProduto = async (request, response) => {
 //   })
 // }
 
-const getProdutos = async (request, response) => {
+const getTratamentos = async (request, response) => {
   const clientesId = request.params.id
   await clientesModel.findById(clientesId, (error, clientes) => {
     if (error) {
@@ -150,27 +150,28 @@ const getProdutos = async (request, response) => {
     }
 
     if (clientes) {
-      return response.status(200).send(clientes.produtos)
+      return response.status(200).send(clientes.tratamentos)
     }
 
     return response.status(404).send('Cliente não encontrado.')
   })
 }
 
-const updateProduto = (request, response) => {
+const updateTratamento = (request, response) => {
   const clienteId = request.params.clienteId
-  const produtoId = request.params.produtoId
+  const tratamentoId = request.params.tratamentoId
   const options = { new: true }
 
   clientesModel.findOneAndUpdate(
     { _id: clienteId, 'produto._id': produtoId },
     {
       $set: {
-        'produtos.$.nome': request.body.nome,
-        'produtos.$.marca': request.body.marca,
-        'produtos.$.modelo':request.body.modelo,
-        'produtos.$.descricao':request.body.descricao, 
-        'produtos.$.foto': request.body.foto,
+        'tratamentos.$.nome': request.body.nome,
+        'email': request.body.email,
+        'idade': request.body.idade,
+        'telefone': request.body.telefone,
+        'endereco': request.body.endereco,
+        'alergias': request.body.alergiasn
 
       }
     },
@@ -189,11 +190,11 @@ const updateProduto = (request, response) => {
   )
 }
 
-const getProdutosById = async (request, response) => {
+const getTratamentoById = async (request, response) => {
   const clienteId = request.params.clienteId
-  const produtoId = request.params.produtoId
+  const tratamentoId = request.params.tratamentoId
   const cliente = await clientesModel.findById(clienteId)
-  const produto = cliente.produtos.find(produto => produto._id == produtoId)
+  const tratamento = cliente.tratamentos.find(tratamento => tratamento._id == tratamentoId)
 
   return response.status(200).send(produto)
 }
@@ -229,10 +230,10 @@ module.exports = {
   addAdmin,
   remove,
   update,
-  addProduto,
+  addTratamento,
  // clienteProduto: alterarDadosProduto,
-  getProdutos: getProdutos,
-  updateProduto: updateProduto,
-  getProdutoById: getProdutosById,
+  getTratamentos,
+  updateTratamento,
+  getTratamentoById,
   login
 }
