@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { TratamentossSchema } = require('./TratamentosSchema')
+const { TratamentosSchema } = require('./TratamentosSchema')
 const Schema = mongoose.Schema;
 const ClientesSchema = new Schema({
   _id: { type: mongoose.Schema.Types.ObjectId, auto: true, required: true },
@@ -9,7 +9,8 @@ const ClientesSchema = new Schema({
   telefone: { type: String, required: true },
   endereco: { type: String, required: true },
   alergias: { type: String, required: true },
-//  tratamentos: [TratamentosSchema],
+  grupo: { type: String, required: true },
+  tratamentos: [TratamentosSchema],
 
 
 })

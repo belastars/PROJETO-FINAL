@@ -9,6 +9,6 @@ const TratamentosSchema = new Schema({
   preco: { type: Number }
 })
 
-const tratamentosModel = mongoose.model('produtos', TratamentosSchema);
+const tratamentosModel = mongoose.model('tratamentos', TratamentosSchema);
 
 module.exports = { tratamentosModel, TratamentosSchema };

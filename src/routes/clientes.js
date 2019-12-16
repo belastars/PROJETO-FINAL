@@ -18,7 +18,7 @@ const autenticar = (request, response, next) => {
     if (error) {
       autenticado = false
     } else {
-      if (decoded.grupo == 'comum' || decoded.grupo == 'admin') {
+      if (decoded.grupo == 'comum' || decoded.grupo == 'ProfissionalEstetica') {
         autenticado = true
       } else {
         autenticado = false
@@ -33,7 +33,7 @@ const autenticar = (request, response, next) => {
   next()
 }
 
-const autenticarAdmin = (request, response, next) => {
+const autenticarProfissionalEstetica = (request, response, next) => {
   const authHeader = request.get('authorization')
   let autenticado = false
 
@@ -47,7 +47,7 @@ const autenticarAdmin = (request, response, next) => {
     if (error) {
       autenticado = false
     } else {
-      if (decoded.grupo == 'admin') {
+      if (decoded.grupo == 'ProfissionalEstetica') {
         autenticado = true
       } else {
         autenticado = false
@@ -63,13 +63,13 @@ const autenticarAdmin = (request, response, next) => {
 }
 
 router.get('', autenticar, controller.getAll)
-router.post('', autenticarAdmin, controller.add)
-router.post('/admin', autenticarAdmin, controller.addAdmin)
+router.post('', autenticarProfissionalEstetica, controller.add)
+router.post('/ProfissionalEstetica', autenticarProfissionalEstetica, controller.addProfEst)
 router.get('/:id', autenticar, controller.getById)
 router.patch('/:id', autenticar, controller.update)
 router.delete('/:id', autenticar, controller.remove)
 router.post('/:clienteId/tratamentos', autenticar, controller.addTratamento)
-//router.patch('/:clienteId/produtos/:produtoId/alterarDados', autenticar, controller.alterarDadosProduto)
+//router.patch('/:clienteId/tratamentos/:tratamentoId/alterarDados', autenticar, controller.alterarDadosProduto)
 router.get('/:id/tratamentos', autenticar, controller.getTratamentos)
 router.patch('/:clienteId/tratamentos/:tratamentoId', autenticar, controller.updateTratamento)
 router.get('/:clienteId/tratamentos/:tratamentoId', autenticar, controller.getTratamentoById)
