@@ -27,14 +27,6 @@ const SEGREDO = process.env.SEGREDO
 
 connect()
 
-// const calcularPreco = (inicio, fim, nivelAtual) => {
-//   const diff = Math.abs(new Date(inicio) - new Date(fim)) / 3600000
-
-//   return (diff / 4) + nivelAtual;
-// }
-//get ALL 
-
-
 const getAll = (request, response) => {
   clientesModel.find((error, clientes) => {
     if (error) {
@@ -149,23 +141,6 @@ const addTratamento = async (request, response) => {
   })
 }
 
-// const alterarDadosTratamento = async (request, response) => {
-//   const pokemonId = request.params.pokemonId
-//   const treinadorId = request.params.treinadorId
-//   const treinador = await clientesModel.findById(treinadorId)
-//   const pokemon = treinador.pokemons.find(pokemon => pokemon._id == pokemonId)
-
-//   pokemon.nivel = calcularPreco(request.body.inicio, request.body.fim, pokemon.nivel)
-
-//   return treinador.save((error) => {
-//     if (error) {
-//       return response.status(500).send(error)
-//     }
-
-//     return response.status(200).send(treinador)
-//   })
-// }
-
 const getTratamentos = async (request, response) => {
   const clientesId = request.params.id
   await clientesModel.findById(clientesId, (error, clientes) => {
@@ -195,8 +170,7 @@ const updateTratamento = (request, response) => {
         'idade': request.body.idade,
         'telefone': request.body.telefone,
         'endereco': request.body.endereco,
-        'alergias': request.body.alergiasn
-
+        'alergias': request.body.alergias
       }
     },
     options,
@@ -255,7 +229,6 @@ module.exports = {
   remove,
   update,
   addTratamento,
- // alterarDadosTratamento,
   getTratamentos,
   updateTratamento,
   getTratamentoById,
