@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const MONGO_URL = 'mongodb://localhost:27017/projetoIsa';
+const MONGO_URL = process.env.MONGO_URL;
 
 function connect () {
   mongoose.connect(MONGO_URL,
